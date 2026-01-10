@@ -9,7 +9,7 @@ import java.net.Socket;
 public class AdvancedProxyServer {
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
-            System.out.println("step3: 멀티쓰레드 프록시 시작 (Port: 8080)");
+            System.out.println("step4: 멀티쓰레드 프록시 시작 (Port: 8080)");
 
             while (true) {
 
