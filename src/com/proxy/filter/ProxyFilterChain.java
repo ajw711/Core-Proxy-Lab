@@ -1,5 +1,6 @@
 package com.proxy.filter;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class ProxyFilterChain {
         filters.add(filter);
     }
 
-    public void handleNext(Socket socket, byte[] data){
+    public void handleNext(Socket socket, byte[] data) throws IOException {
         if(index < filters.size()){
             HttpFilter filter = filters.get(index++);
             filter.doFilter(socket, data, this); // 다음 필터 실행

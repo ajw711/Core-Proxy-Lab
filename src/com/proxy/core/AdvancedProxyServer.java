@@ -5,11 +5,18 @@ import com.proxy.handler.ClientHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdvancedProxyServer {
     public static void main(String[] args) {
+
+        // 스레드 풀 생성
+        // 손님 100명이 와도 10명이서 나눠서 처리하고 나머지 대기
+        ExecutorService threadPool = Executors.newFixedThreadPool(10);
+
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
-            System.out.println("step4: 멀티쓰레드 프록시 시작 (Port: 8080)");
+            System.out.println("step6: 스레드 풀 적용 프록시 시작 (Port: 8080)");
 
             while (true) {
 
@@ -18,10 +25,8 @@ public class AdvancedProxyServer {
                 System.out.println("새로운 손님 접속: " + clientSocket.getRemoteSocketAddress());
 
                 // 2. client 전담 핸들러 고용
-                // 새로운 (Thread)엥 손님 태우기
-                ClientHandler clientHandler = new ClientHandler(clientSocket);
-                Thread thread = new Thread(clientHandler);
-                thread.start();
+                //(스레드 풀 방식: 10명 안에서 돌려막기)
+                threadPool.execute(new ClientHandler(clientSocket));
 
                 // 3. 다음 손님 기다리기
             }
