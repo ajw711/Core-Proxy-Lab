@@ -21,7 +21,7 @@ public class RelayFilter implements HttpFilter {
     }
 
     @Override
-    public void doFilter(Socket clientSocket, byte[] requestData, ProxyFilterChain chain) {
+    public void doFilter(Socket clientSocket, byte[] requestData, ProxyFilterChain chain) throws IOException {
         System.out.println("RelayFilter.doFilter: HttpForwarder에게 업무를 위임합니다.");
 
         try {

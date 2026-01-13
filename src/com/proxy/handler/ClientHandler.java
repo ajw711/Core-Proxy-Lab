@@ -1,9 +1,6 @@
 package com.proxy.handler;
 
-import com.proxy.filter.GoogleRoutingStrategy;
-import com.proxy.filter.LoggingFilter;
-import com.proxy.filter.ProxyFilterChain;
-import com.proxy.filter.RelayFilter;
+import com.proxy.filter.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +37,9 @@ public class ClientHandler implements Runnable{
 
                 // 원하는 기능을 순서대로 넣기 (느슨한 결합: 기능 추가/삭제 자유로움)
                 chain.addFilter(new LoggingFilter()); // 1. 요청 기록
-                chain.addFilter(new RelayFilter(new GoogleRoutingStrategy())); // 2. 외부 서버 전달
+                chain.addFilter(new BlacklistFilter()); // 2.금지된 곳인지 확인
+                chain.addFilter(new RelayFilter(new GoogleRoutingStrategy())); // 3. 외부 서버 전달
+
 
                 // 엔진 가동
                 // 조립된 체인에 첫 번째 필터를 실행하도록 신호 전달
