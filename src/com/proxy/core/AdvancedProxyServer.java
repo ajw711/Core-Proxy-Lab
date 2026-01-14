@@ -16,7 +16,7 @@ public class AdvancedProxyServer {
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
         try(ServerSocket serverSocket = new ServerSocket(8080)) {
-            System.out.println("step6: 스레드 풀 적용 프록시 시작 (Port: 8080)");
+            System.out.println("step8: HTTPS 터널링 (Port: 8080)");
 
             while (true) {
 
@@ -26,7 +26,7 @@ public class AdvancedProxyServer {
 
                 // 2. client 전담 핸들러 고용
                 //(스레드 풀 방식: 10명 안에서 돌려막기)
-                threadPool.execute(new ClientHandler(clientSocket));
+                threadPool.execute(new ClientHandler(clientSocket, threadPool));
 
                 // 3. 다음 손님 기다리기
             }
